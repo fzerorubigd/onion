@@ -2,6 +2,7 @@
 *.o
 *.a
 *.so
+*.cp
 
 # Folders
 _obj

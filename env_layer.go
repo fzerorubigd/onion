@@ -16,3 +16,18 @@ func NewEnvLayer(separator string, whiteList ...string) Layer {
 
 	return NewMapLayerSeparator(data, separator)
 }
+
+// NewEnvLayerPrefix create new env layer, with all values with the same prefix
+func NewEnvLayerPrefix(separator string, prefix string) Layer {
+	data := make(map[string]interface{})
+	pf := strings.ToUpper(prefix) + separator
+	for _, env := range os.Environ() {
+		if strings.HasPrefix(env, pf) {
+			k := strings.Trim(strings.Split(env, "=")[0], "\t\n ")
+			ck := strings.ToLower(strings.TrimPrefix(k, pf))
+			data[ck] = os.Getenv(k)
+		}
+	}
+
+	return NewMapLayerSeparator(data, separator)
+}
